@@ -24,18 +24,24 @@ public class AbstractUserService implements IAbstractUserService{
 
 	public AbstractUser register(AbstractUser abstractUser) {
 		LOG.info("register");
-		if (abstractUserRepository.findByUserName(abstractUser.getUserName())!=null)
+		if (abstractUserRepository.findByUserName(abstractUser.getUserName()) != null) {
+			LOG.error("User already exists");
 			throw new AbstractUserAlreadyExistsException();
-		return abstractUserRepository.save(abstractUser);
+		} else {
+			LOG.info("Register successfully");
+			return abstractUserRepository.save(abstractUser);
+		}
 	}
 
 	public AbstractUser login(AbstractUser abstractUser) {
 		LOG.info("login");
 		tempUser = abstractUserRepository.findByUserName(abstractUser.getUserName());
 		if (tempUser.getUserName().equalsIgnoreCase(abstractUser.getUserName())) {
+			LOG.info("User logged in successfully");
 			isLoggedIn = true;
 			return tempUser;
 		}
+		LOG.error("User not found");
 		throw new AbstractUserNotFoundException();
 	}
 
@@ -45,6 +51,7 @@ public class AbstractUserService implements IAbstractUserService{
 			isLoggedIn = false;
 			return "User logged out successfully.";
 		}
+		LOG.error("User not found");
 		throw new AbstractUserNotFoundException();
 	}
 }
