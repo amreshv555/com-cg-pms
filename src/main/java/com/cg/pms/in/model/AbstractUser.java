@@ -21,6 +21,7 @@ public class AbstractUser {
 	@Column
 	private String password;
 
+	
 
 	public AbstractUser() {
 		super();
