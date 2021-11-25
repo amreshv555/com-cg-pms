@@ -16,6 +16,8 @@ public class AbstractUserService implements IAbstractUserService{
 	public boolean isLoggedIn;
 
 	private AbstractUser tempUser;
+	
+	private AbstractUser tempPassword;
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractUserService.class);
 
@@ -36,13 +38,17 @@ public class AbstractUserService implements IAbstractUserService{
 	public AbstractUser login(AbstractUser abstractUser) {
 		LOG.info("login");
 		tempUser = abstractUserRepository.findByUserName(abstractUser.getUserName());
-		if (tempUser.getUserName().equalsIgnoreCase(abstractUser.getUserName())) {
+		tempPassword = abstractUserRepository.findByPassword(abstractUser.getPassword());
+		if (tempUser.getUserName().equalsIgnoreCase(abstractUser.getUserName()) &&
+				tempPassword.getPassword().equalsIgnoreCase(abstractUser.getPassword())) {
 			LOG.info("User logged in successfully");
 			isLoggedIn = true;
 			return tempUser;
-		}
-		LOG.error("User not found");
+		}else {
+			LOG.error("User not found");
 		throw new AbstractUserNotFoundException();
+		
+	}
 	}
 
 	public String logout(String userName) {
@@ -50,8 +56,9 @@ public class AbstractUserService implements IAbstractUserService{
 		if (isLoggedIn) {
 			isLoggedIn = false;
 			return "User logged out successfully.";
-		}
+		}else {
 		LOG.error("User not found");
 		throw new AbstractUserNotFoundException();
+	}
 	}
 }

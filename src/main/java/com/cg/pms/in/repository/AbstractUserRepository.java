@@ -10,4 +10,5 @@ public interface AbstractUserRepository extends JpaRepository<AbstractUser, Inte
 
 
 	public abstract AbstractUser findByUserName(String userName);
+	public abstract AbstractUser findByPassword(String password);
 }
