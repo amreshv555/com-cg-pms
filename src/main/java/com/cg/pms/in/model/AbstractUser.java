@@ -27,13 +27,6 @@ public class AbstractUser {
 		super();
 	}
 
-	public AbstractUser(String userName, String password) {
-		super();
-		this.userName = userName;
-		this.password = password;
-		
-	}
-
 	public AbstractUser(int uid, String userName, String password) {
 		super();
 		this.uid = uid;

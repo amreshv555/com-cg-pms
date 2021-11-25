@@ -40,7 +40,8 @@ public class AbstractUserService implements IAbstractUserService{
 		tempUser = abstractUserRepository.findByUserName(abstractUser.getUserName());
 		tempPassword = abstractUserRepository.findByPassword(abstractUser.getPassword());
 		if (tempUser.getUserName().equalsIgnoreCase(abstractUser.getUserName()) &&
-				tempPassword.getPassword().equalsIgnoreCase(abstractUser.getPassword())) {
+				tempPassword.getPassword().equalsIgnoreCase(abstractUser.getPassword()) && 
+				abstractUserRepository.existsById(null)) {
 			LOG.info("User logged in successfully");
 			isLoggedIn = true;
 			return tempUser;
